@@ -3,6 +3,7 @@ using Domain.Dtos;
 using Domain.Entites;
 using Domain.Wrapper;
 using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Services;
 public class CustomerPurchacesServices : ICustomerPurchacesServices
 {
@@ -13,18 +14,36 @@ public class CustomerPurchacesServices : ICustomerPurchacesServices
         _context = context;
         _mapper = mapper;
     }
-    public async Task<Response<string>> AddCustomerPurchaces(AddCustomerPurchacesDto model)
+
+    public async Task<Response<List<GetCustomerPurchacesDto>>> GetCustomerPurchaces()
+    {
+        var customer = await (from cp in _context.CustomerPurchaces
+                              join cu in _context.Customers
+                              on cp.CustomersId equals cu.Id
+                              join ic in _context.Installments
+                              on cp.InstallmentId equals ic.Id
+                              select new GetCustomerPurchacesDto
+                              {
+                                  Id = cp.Id,
+                                  InstallmentId = ic.Id,
+                                  CustomersName = cu.Name
+                              }).ToListAsync();
+        return new Response<List<GetCustomerPurchacesDto>>(customer);
+    }
+
+    public async Task<Response<AddCustomerPurchacesDto>> AddCustomerPurchaces(AddCustomerPurchacesDto model)
     {
         try
         {
             var mapped = _mapper.Map<CustomerPurchaces>(model);
             await _context.CustomerPurchaces.AddAsync(mapped);
             await _context.SaveChangesAsync();
-            return new Response<string>(_mapper.Map<string>("Installment Added Successfully"));
+            model.Id = mapped.Id;
+            return new Response<AddCustomerPurchacesDto>(_mapper.Map<AddCustomerPurchacesDto>("Installment Added Successfully"));
         }
         catch (Exception ex)
         {
-            return new Response<string>(System.Net.HttpStatusCode.InternalServerError, ex.Message);
+            return new Response<AddCustomerPurchacesDto>(System.Net.HttpStatusCode.InternalServerError, ex.Message);
         }
     }
     public async Task<Response<AddCustomerPurchacesDto>> UpdateCustomerPurchaces(AddCustomerPurchacesDto model)
@@ -33,6 +52,7 @@ public class CustomerPurchacesServices : ICustomerPurchacesServices
         {
             var record = await _context.CustomerPurchaces.FindAsync(model.Id);
             if (record == null) return new Response<AddCustomerPurchacesDto>(System.Net.HttpStatusCode.NotFound, "No record found");
+            record.Id = model.Id;
             await _context.SaveChangesAsync();
             return new Response<AddCustomerPurchacesDto>(model);
         }
@@ -41,7 +61,7 @@ public class CustomerPurchacesServices : ICustomerPurchacesServices
             return new Response<AddCustomerPurchacesDto>(System.Net.HttpStatusCode.InternalServerError, ex.Message);
         }
     }
-    public async Task<Response<string>> DaleteInstallment(int id)
+    public async Task<Response<string>> DaleteCustomerPurchaces(int id)
     {
         try
         {

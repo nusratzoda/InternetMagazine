@@ -6,9 +6,9 @@ public class CustomerPurchaces
 {
     public int Id { get; set; }
     public int InstallmentId { get; set; }
-      [ForeignKey("InstallmentId")]
+    [ForeignKey("InstallmentId")]
     public virtual Installment? Installment { get; set; }
     public int CustomersId { get; set; }
-      [ForeignKey("CustomersId")]
+    [ForeignKey("CustomersId")]
     public virtual Customers? Customers { get; set; }
 }

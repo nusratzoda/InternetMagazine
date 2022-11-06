@@ -36,18 +36,19 @@ public class InstallmentServices : IInstallmentServices
         return new Response<List<GetInstallmentDto>>(installment);
     }
 
-public async Task<Response<AddInstallmentDto>> AddInstallment(AddInstallmentDto model)
+public async Task<Response<string>> AddInstallment(AddInstallmentDto model)
 {
     try
     {
         var mapped = _mapper.Map<Installment>(model);
         await _context.Installments.AddAsync(mapped);
         await _context.SaveChangesAsync();
-        return new Response<AddInstallmentDto>(_mapper.Map<AddInstallmentDto>("Installment Added Successfully"));
+        model.Id = mapped.Id;
+        return new Response<string>(_mapper.Map<string>("Installment Added Successfully"));
     }
     catch (Exception ex)
     {
-        return new Response<AddInstallmentDto>(System.Net.HttpStatusCode.InternalServerError, ex.Message);
+        return new Response<string>(System.Net.HttpStatusCode.InternalServerError, ex.Message);
     }
 }
 public async Task<Response<AddInstallmentDto>> UpdateInstallment(AddInstallmentDto model)
@@ -56,6 +57,8 @@ public async Task<Response<AddInstallmentDto>> UpdateInstallment(AddInstallmentD
     {
         var record = await _context.Installments.FindAsync(model.Id);
         if (record == null) return new Response<AddInstallmentDto>(System.Net.HttpStatusCode.NotFound, "No record found");
+        record.EndInstallement = model.EndInstallement;
+        record.Percentage = model.Percentage;
         await _context.SaveChangesAsync();
         return new Response<AddInstallmentDto>(model);
     }

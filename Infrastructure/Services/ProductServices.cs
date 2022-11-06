@@ -25,26 +25,26 @@ public class ProductServices : IProductServices
                                      Id = ins.Id,
                                      Price = ins.Price,
                                      Installments = (from cu in _context.Installments
-                                                          where ins.Id == cu.ProductId
-                                                          select _mapper.Map<Installment>(cu)
+                                                     where ins.Id == cu.ProductId
+                                                     select _mapper.Map<Installment>(cu)
                                                      ).ToList()
 
                                  }).ToListAsync();
         return new Response<List<GetProductDto>>(installment);
     }
 
-    public async Task<Response<AddProductDto>> AddProduct(AddProductDto model)
+    public async Task<Response<string>> AddProduct(AddProductDto model)
     {
         try
         {
             var mapped = _mapper.Map<Product>(model);
             await _context.Products.AddAsync(mapped);
             await _context.SaveChangesAsync();
-            return new Response<AddProductDto>(_mapper.Map<AddProductDto>("Installment Added Successfully"));
+            return new Response<string>(_mapper.Map<string>("Installment Added Successfully"));
         }
         catch (Exception ex)
         {
-            return new Response<AddProductDto>(System.Net.HttpStatusCode.InternalServerError, ex.Message);
+            return new Response<string>(System.Net.HttpStatusCode.InternalServerError, ex.Message);
         }
     }
     public async Task<Response<AddProductDto>> UpdateProduct(AddProductDto model)
@@ -53,6 +53,8 @@ public class ProductServices : IProductServices
         {
             var record = await _context.Products.FindAsync(model.Id);
             if (record == null) return new Response<AddProductDto>(System.Net.HttpStatusCode.NotFound, "No record found");
+            record.Price = model.Price;
+            record.Name = model.Name;
             await _context.SaveChangesAsync();
             return new Response<AddProductDto>(model);
         }

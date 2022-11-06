@@ -4,7 +4,7 @@ public class GetCustomerPurchacesDto
 {
     public int Id { get; set; }
     public int InstallmentId { get; set; }
-    public virtual Installment? Installment { get; set; }
+    public string? InstallmentName { get; set; }
     public int CustomersId { get; set; }
-    public virtual Customers? Customers { get; set; }
+    public string? CustomersName { get; set; }
 }

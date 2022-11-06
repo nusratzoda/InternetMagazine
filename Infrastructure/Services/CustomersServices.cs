@@ -33,18 +33,18 @@ public class CustomersServices : ICustomersServices
         return new Response<List<GetCustomerDto>>(installment);
     }
 
-    public async Task<Response<AddCustomerDto>> AddCustomer(AddCustomerDto model)
+    public async Task<Response<string>> AddCustomer(AddCustomerDto model)
     {
         try
         {
             var mapped = _mapper.Map<Customers>(model);
             await _context.Customers.AddAsync(mapped);
             await _context.SaveChangesAsync();
-            return new Response<AddCustomerDto>(_mapper.Map<AddCustomerDto>("Installment Added Successfully"));
+            return new Response<string>(_mapper.Map<string>("Installment Added Successfully"));
         }
         catch (Exception ex)
         {
-            return new Response<AddCustomerDto>(System.Net.HttpStatusCode.InternalServerError, ex.Message);
+            return new Response<string>(System.Net.HttpStatusCode.InternalServerError, ex.Message);
         }
     }
     public async Task<Response<AddCustomerDto>> UpdateCustomer(AddCustomerDto model)
@@ -53,6 +53,8 @@ public class CustomersServices : ICustomersServices
         {
             var record = await _context.Customers.FindAsync(model.Id);
             if (record == null) return new Response<AddCustomerDto>(System.Net.HttpStatusCode.NotFound, "No record found");
+            record.Name = model.Name;
+            record.PhoneNumber = model.PhoneNumber;
             await _context.SaveChangesAsync();
             return new Response<AddCustomerDto>(model);
         }

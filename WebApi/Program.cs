@@ -1,6 +1,6 @@
-using Infrastructura.Cantext;
-using Infrastructura.InfrastructuraMapper;
-using Infrastructura.Services;
+using Infrastructure.Context;
+using Infrastructure.InfrastructuraMapper;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +12,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ICustomerServices, CustomerServices>();
+builder.Services.AddScoped<ICustomersServices, CustomersServices>();
 builder.Services.AddScoped<IInstallmentServices, InstallmentServices>();
-builder.Services.AddScoped<IproductServices, ProductServices>();
+builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<ICustomerPurchacesServices, CustomerPurchacesServices>();
 builder.Services.AddAutoMapper(typeof(ServicesProfile));
 //register database

@@ -18,9 +18,8 @@ public class CustomerController : ControllerBase
     {
         return await _customerService.GetCustomer();
     }
-
     [HttpPost]
-    public async Task<Response<AddCustomerDto>> AddChalange(AddCustomerDto chalange)
+    public async Task<Response<string>> AddCustomer(AddCustomerDto chalange)
     {
         return await _customerService.AddCustomer(chalange);
     }

@@ -23,7 +23,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<Response<AddProductDto>> AddProduct(AddProductDto chalange)
+    public async Task<Response<string>> AddProduct(AddProductDto chalange)
     {
         return await _productService.AddProduct(chalange);
     }

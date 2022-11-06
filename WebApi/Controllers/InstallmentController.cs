@@ -14,23 +14,23 @@ public class InstallmentController : ControllerBase
         _installmentService = installService;
     }
     [HttpGet]
-    public async Task<Response<List<GetInstallment>>> GetInstallment()
+    public async Task<Response<List<GetInstallmentDto>>> GetInstallment()
     {
         return await _installmentService.GetInstallment();
     }
     [HttpPost]
-    public async Task<Response<AddInstallmentDto>> AddChalange(AddInstallmentDto chalange)
+    public async Task<Response<string>> AddInstallment(AddInstallmentDto chalange)
     {
-        return await _customerService.AddInstallment(chalange);
+        return await _installmentService.AddInstallment(chalange);
     }
     [HttpPut]
-    public async Task<Response<AddInstallment>> UpdateCustomer(AddCustomerDto chalange)
+    public async Task<Response<AddInstallmentDto>> UpdateInstallment(AddInstallmentDto chalange)
     {
-        return await _customerService.UpdateCustomer(chalange);
+        return await _installmentService.UpdateInstallment(chalange);
     }
     [HttpDelete]
-    public async Task<Response<string>> DeleteCustomer(int id)
+    public async Task<Response<string>> DeleteInstallment(int id)
     {
-        return await _customerService.DaleteCustomer(id);
+        return await _installmentService.DaleteInstallment(id);
     }
 }
