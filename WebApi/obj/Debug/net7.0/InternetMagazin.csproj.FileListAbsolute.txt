@@ -1,0 +1,7 @@
+C:\Users\Сухайб\Desktop\IntertnetMagazin\WebApi\obj\Debug\net7.0\InternetMagazin.csproj.AssemblyReference.cache
+C:\Users\Сухайб\Desktop\IntertnetMagazin\WebApi\obj\Debug\net7.0\InternetMagazin.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Сухайб\Desktop\IntertnetMagazin\WebApi\obj\Debug\net7.0\InternetMagazin.AssemblyInfoInputs.cache
+C:\Users\Сухайб\Desktop\IntertnetMagazin\WebApi\obj\Debug\net7.0\InternetMagazin.AssemblyInfo.cs
+C:\Users\Сухайб\Desktop\IntertnetMagazin\WebApi\obj\Debug\net7.0\InternetMagazin.csproj.CoreCompileInputs.cache
+C:\Users\Сухайб\Desktop\IntertnetMagazin\WebApi\obj\Debug\net7.0\InternetMagazin.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Сухайб\Desktop\IntertnetMagazin\WebApi\obj\Debug\net7.0\InternetMagazin.MvcApplicationPartsAssemblyInfo.cache
